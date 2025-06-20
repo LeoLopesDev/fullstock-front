@@ -2,6 +2,16 @@
   <div class="container mt-5">
     <h2 class="mb-4 fw-bold text-secondary">Produtos</h2>
 
+    <div class="mb-4">
+  <label class="form-label fw-semibold">Filtrar por Tipo:</label>
+  <select v-model="tipoSelecionado" @change="fetchProdutosPorTipo" class="form-select">
+    <option value="">Todos</option>
+    <option value="MOVEL">MÓVEL</option>
+    <option value="ELETRONICO">ELETRÔNICO</option>
+    <option value="ELETRODOMESTICO">ELETRODOMÉSTICO</option>
+  </select>
+</div>
+
     <ul class="list-group shadow-sm">
       <li
         v-for="produto in produtos"
@@ -10,7 +20,7 @@
       >
         <div class="d-flex justify-content-between align-items-center">
           <h5 class="mb-0 fw-semibold text-dark">{{ produto.descricao }}</h5>
-          <small class="text-muted">#{{ produto.id }}</small>
+          <small class="text-muted">CÓDIGO DO PRODUTO : {{ produto.id }}</small>
         </div>
 
         <div class="text-muted">Tipo: {{ produto.tipoProduto }}</div>
@@ -40,14 +50,31 @@
 import { ref, onMounted } from 'vue'
 import api from '../services/api'
 
+// estado para os produtos
 const produtos = ref([])
+// estado para o filtro
+const tipoSelecionado = ref("")
 
+// buscar todos os produtos
 const fetchProdutos = async () => {
   try {
     const { data } = await api.get('/produtos')
     produtos.value = data
   } catch (error) {
     alert('Erro ao carregar produtos')
+  }
+}
+
+const fetchProdutosPorTipo = async () => {
+  try {
+    if (tipoSelecionado.value === "") {
+      await fetchProdutos()
+      return
+    }
+    const { data } = await api.get(`/produtos/tipo/${tipoSelecionado.value}`)
+    produtos.value = data
+  } catch (error) {
+    alert('Erro ao filtrar produtos')
   }
 }
 
