@@ -1,38 +1,38 @@
 <template>
-  <div class="container mt-4">
+  <div class="container mt-5">
     <h2 class="mb-4 fw-bold text-secondary">Produtos</h2>
-    <div class="row g-4">
-      <div
+
+    <ul class="list-group shadow-sm">
+      <li
         v-for="produto in produtos"
         :key="produto.id"
-        class="col-md-6"
+        class="list-group-item d-flex flex-column gap-2"
       >
-        <div class="card shadow-sm h-100">
-          <div class="card-body d-flex flex-column gap-3">
-            <h3 class="card-title fw-semibold text-dark">{{ produto.descricao }}</h3>
-            <p class="text-muted mb-1">Código: {{ produto.id }}</p>
-            <p class="text-muted mb-1">Tipo: {{ produto.tipoProduto }}</p>
-            <p class="text-muted mb-1">Valor Fornecedor: R$ {{ produto.valorFornecedor.toFixed(2) }}</p>
-            <p class="text-muted mb-3">Estoque: {{ produto.quantidadeEstoque }}</p>
-
-            <div class="mt-auto d-flex gap-2">
-              <router-link
-                :to="`/produtos/edit/${produto.id}`"
-                class="btn btn-warning flex-grow-1"
-              >
-                Editar
-              </router-link>
-              <button
-                @click="deleteProduto(produto.id)"
-                class="btn btn-danger flex-grow-1"
-              >
-                Excluir
-              </button>
-            </div>
-          </div>
+        <div class="d-flex justify-content-between align-items-center">
+          <h5 class="mb-0 fw-semibold text-dark">{{ produto.descricao }}</h5>
+          <small class="text-muted">#{{ produto.id }}</small>
         </div>
-      </div>
-    </div>
+
+        <div class="text-muted">Tipo: {{ produto.tipoProduto }}</div>
+        <div class="text-muted">Valor Fornecedor: R$ {{ produto.valorFornecedor.toFixed(2) }}</div>
+        <div class="text-muted">Estoque: {{ produto.quantidadeEstoque }}</div>
+
+        <div class="d-flex gap-2 mt-3">
+          <router-link
+            :to="`/produtos/edit/${produto.id}`"
+            class="btn btn-sm btn-warning flex-grow-1"
+          >
+            Editar
+          </router-link>
+          <button
+            @click="deleteProduto(produto.id)"
+            class="btn btn-sm btn-danger flex-grow-1"
+          >
+            Excluir
+          </button>
+        </div>
+      </li>
+    </ul>
   </div>
 </template>
 
