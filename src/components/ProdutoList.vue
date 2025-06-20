@@ -3,14 +3,14 @@
     <h2 class="mb-4 fw-bold text-secondary">Produtos</h2>
 
     <div class="mb-4">
-  <label class="form-label fw-semibold">Filtrar por Tipo:</label>
-  <select v-model="tipoSelecionado" @change="fetchProdutosPorTipo" class="form-select">
-    <option value="">Todos</option>
-    <option value="MOVEL">MÓVEL</option>
-    <option value="ELETRONICO">ELETRÔNICO</option>
-    <option value="ELETRODOMESTICO">ELETRODOMÉSTICO</option>
-  </select>
-</div>
+      <label class="form-label fw-semibold">Filtrar por Tipo:</label>
+      <select v-model="tipoSelecionado" @change="fetchProdutosEbalancos" class="form-select">
+        <option value="">Todos</option>
+        <option value="MOVEL">MÓVEL</option>
+        <option value="ELETRONICO">ELETRÔNICO</option>
+        <option value="ELETRODOMESTICO">ELETRODOMÉSTICO</option>
+      </select>
+    </div>
 
     <ul class="list-group shadow-sm">
       <li
@@ -26,6 +26,11 @@
         <div class="text-muted">Tipo: {{ produto.tipoProduto }}</div>
         <div class="text-muted">Valor Fornecedor: R$ {{ produto.valorFornecedor.toFixed(2) }}</div>
         <div class="text-muted">Estoque: {{ produto.quantidadeEstoque }}</div>
+
+        <div class="text-muted">Receita: R$ {{ produto.receita?.toFixed(2) ?? '0.00' }}</div>
+        <div class="text-muted">Custo: R$ {{ produto.custo?.toFixed(2) ?? '0.00' }}</div>
+        <div class="text-muted">Lucro: R$ {{ produto.lucro?.toFixed(2) ?? '0.00' }}</div>
+        <div class="text-muted">Quantidade Saída: {{ produto.quantidadeSaida ?? 0 }}</div>
 
         <div class="d-flex gap-2 mt-3">
           <router-link
@@ -51,29 +56,50 @@ import { ref, onMounted } from 'vue'
 import api from '../services/api'
 
 const produtos = ref([])
-
+const balancos = ref([])
 const tipoSelecionado = ref("")
 
+// Busca produtos, filtrando por tipo se especificado
 const fetchProdutos = async () => {
   try {
-    const { data } = await api.get('/produtos')
-    produtos.value = data
+    if (tipoSelecionado.value === "") {
+      const { data } = await api.get('/produtos')
+      produtos.value = data
+    } else {
+      const { data } = await api.get(`/produtos/tipo/${tipoSelecionado.value}`)
+      produtos.value = data
+    }
   } catch (error) {
     alert('Erro ao carregar produtos')
   }
 }
 
-const fetchProdutosPorTipo = async () => {
+// Busca balanço financeiro para todos produtos
+const fetchBalancos = async () => {
   try {
-    if (tipoSelecionado.value === "") {
-      await fetchProdutos()
-      return
-    }
-    const { data } = await api.get(`/produtos/tipo/${tipoSelecionado.value}`)
-    produtos.value = data
+    const { data } = await api.get('/movimentos/balanco')
+    balancos.value = data
   } catch (error) {
-    alert('Erro ao filtrar produtos')
+    alert('Erro ao carregar balanço financeiro')
   }
+}
+
+// Carrega produtos e balanços, depois mescla os dados
+const fetchProdutosEbalancos = async () => {
+  await fetchProdutos()
+  await fetchBalancos()
+
+  // Mesclar balanço financeiro em cada produto
+  produtos.value = produtos.value.map(produto => {
+    const balanco = balancos.value.find(b => b.produtoId === produto.id)
+    return {
+      ...produto,
+      receita: balanco?.receita ?? 0,
+      custo: balanco?.custo ?? 0,
+      lucro: balanco?.lucro ?? 0,
+      quantidadeSaida: balanco?.quantidadeSaida ?? 0
+    }
+  })
 }
 
 const deleteProduto = async (id) => {
@@ -87,5 +113,5 @@ const deleteProduto = async (id) => {
   }
 }
 
-onMounted(fetchProdutos)
+onMounted(fetchProdutosEbalancos)
 </script>
