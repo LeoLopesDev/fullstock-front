@@ -7,13 +7,6 @@
         </h2>
         <form @submit.prevent="submitForm" class="d-flex flex-column gap-3">
           <input
-            v-model="codigo"
-            type="text"
-            placeholder="Código"
-            required
-            class="form-control"
-          />
-          <input
             v-model="descricao"
             type="text"
             placeholder="Descrição"

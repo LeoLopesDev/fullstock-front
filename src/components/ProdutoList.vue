@@ -10,7 +10,7 @@
         <div class="card shadow-sm h-100">
           <div class="card-body d-flex flex-column gap-3">
             <h3 class="card-title fw-semibold text-dark">{{ produto.descricao }}</h3>
-            <p class="text-muted mb-1">Código: {{ produto.codigo }}</p>
+            <p class="text-muted mb-1">Código: {{ produto.id }}</p>
             <p class="text-muted mb-1">Tipo: {{ produto.tipoProduto }}</p>
             <p class="text-muted mb-1">Valor Fornecedor: R$ {{ produto.valorFornecedor.toFixed(2) }}</p>
             <p class="text-muted mb-3">Estoque: {{ produto.quantidadeEstoque }}</p>
