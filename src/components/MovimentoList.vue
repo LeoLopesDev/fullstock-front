@@ -2,6 +2,16 @@
   <div class="container mt-5">
     <h2 class="mb-4 fw-bold text-secondary">Histórico de Movimentações</h2>
 
+    <div class="mb-3">
+  <label class="form-label">Filtrar por Tipo de Produto:</label>
+  <select v-model="tipoSelecionado" @change="fetchMovimentosPorTipo" class="form-select">
+    <option value="">Todos</option>
+    <option value="MOVEL">MÓVEL</option>
+    <option value="ELETRONICO">ELETRÔNICO</option>
+    <option value="ELETRODOMESTICO">ELETRODOMÉSTICO</option>
+  </select>
+</div>
+
     <ul class="list-group shadow-sm">
       <li
         v-for="movimento in movimentos"
@@ -28,6 +38,7 @@ import { ref, onMounted } from 'vue'
 import api from '../services/api'
 
 const movimentos = ref([])
+const tipoSelecionado = ref('') 
 
 const fetchMovimentos = async () => {
   try {
@@ -35,6 +46,18 @@ const fetchMovimentos = async () => {
     movimentos.value = data
   } catch {
     alert('Erro ao carregar movimentos')
+  }
+}
+const fetchMovimentosPorTipo = async () => {
+  if (!tipoSelecionado.value) {
+    fetchMovimentos()
+    return
+  }
+  try {
+    const { data } = await api.get(`/movimentos/tipo/${tipoSelecionado.value}`)
+    movimentos.value = data
+  } catch {
+    alert('Erro ao buscar movimentos por tipo de produto')
   }
 }
 

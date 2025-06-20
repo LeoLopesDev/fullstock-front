@@ -50,12 +50,10 @@
 import { ref, onMounted } from 'vue'
 import api from '../services/api'
 
-// estado para os produtos
 const produtos = ref([])
-// estado para o filtro
+
 const tipoSelecionado = ref("")
 
-// buscar todos os produtos
 const fetchProdutos = async () => {
   try {
     const { data } = await api.get('/produtos')
