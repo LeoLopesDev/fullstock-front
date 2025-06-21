@@ -1,6 +1,7 @@
 # fullstock-front
 
-This template should help get you started developing with Vue 3 in Vite.
+📦 Projeto: Sistema de Controle de Estoque
+Este projeto é uma aplicação front-end desenvolvida em Vue 3 com Vite e Axios, para consumo da API REST de controle de estoque. Permite cadastro de produtos, movimentação de estoque (entrada e saída), além de listagem de produtos e movimentações com cálculo de lucro, receita e custo.
 
 ## Recommended IDE Setup
 
