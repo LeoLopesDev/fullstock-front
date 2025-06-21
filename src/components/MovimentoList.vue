@@ -12,24 +12,31 @@
   </select>
 </div>
 
-    <ul class="list-group shadow-sm">
-      <li
-        v-for="movimento in movimentos"
-        :key="movimento.id"
-        class="list-group-item d-flex flex-column gap-1"
-      >
-        <div class="d-flex justify-content-between align-items-center">
-          <h5 class="mb-1 fw-semibold text-dark">{{ movimento.tipoMovimentacao }}</h5>
-          <small class="text-muted">
-            {{ new Date(movimento.dataVenda).toLocaleString() }}
-          </small>
-        </div>
+    <div class="table-responsive shadow-sm rounded-3 bg-white p-3">
+  <h4 class="fw-bold text-secondary mb-3">Movimentações</h4>
 
-        <p class="mb-0 text-muted">Produto: {{ movimento.produtoDescricao }}</p>
-        <p class="mb-0 text-muted">Quantidade: {{ movimento.quantidadeMovimentada }}</p>
-        <p class="mb-0 text-muted">Valor Venda: R$ {{ movimento.valorVenda.toFixed(2) }}</p>
-      </li>
-    </ul>
+  <table class="table table-hover align-middle">
+    <thead class="table-light">
+      <tr>
+        <th>Tipo</th>
+        <th>Data</th>
+        <th>Produto</th>
+        <th>Quantidade</th>
+        <th>Valor de Venda</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="movimento in movimentos" :key="movimento.id">
+        <td class="fw-semibold">{{ movimento.tipoMovimentacao }}</td>
+        <td>{{ new Date(movimento.dataVenda).toLocaleString() }}</td>
+        <td>{{ movimento.produtoDescricao }}</td>
+        <td>{{ movimento.quantidadeMovimentada }}</td>
+        <td>R$ {{ movimento.valorVenda.toFixed(2) }}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
   </div>
 </template>
 
