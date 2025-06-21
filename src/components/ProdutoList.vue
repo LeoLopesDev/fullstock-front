@@ -12,42 +12,57 @@
       </select>
     </div>
 
-    <ul class="list-group shadow-sm">
-      <li
-        v-for="produto in produtos"
-        :key="produto.id"
-        class="list-group-item d-flex flex-column gap-2"
-      >
-        <div class="d-flex justify-content-between align-items-center">
-          <h5 class="mb-0 fw-semibold text-dark">{{ produto.descricao }}</h5>
-          <small class="text-muted">CÓDIGO DO PRODUTO : {{ produto.id }}</small>
-        </div>
+    <div class="table-responsive shadow-sm rounded-3 bg-white p-3">
+  <h4 class="fw-bold text-secondary mb-3">Produtos</h4>
 
-        <div class="text-muted">Tipo: {{ produto.tipoProduto }}</div>
-        <div class="text-muted">Valor Fornecedor: R$ {{ produto.valorFornecedor.toFixed(2) }}</div>
-        <div class="text-muted">Estoque: {{ produto.quantidadeEstoque }}</div>
-
-        <div class="text-muted">Receita: R$ {{ produto.receita?.toFixed(2) ?? '0.00' }}</div>
-        <div class="text-muted">Custo: R$ {{ produto.custo?.toFixed(2) ?? '0.00' }}</div>
-        <div class="text-muted">Lucro: R$ {{ produto.lucro?.toFixed(2) ?? '0.00' }}</div>
-        <div class="text-muted">Quantidade Saída: {{ produto.quantidadeSaida ?? 0 }}</div>
-
-        <div class="d-flex gap-2 mt-3">
-          <router-link
-            :to="`/produtos/edit/${produto.id}`"
-            class="btn btn-sm btn-warning flex-grow-1"
-          >
-            Editar
-          </router-link>
-          <button
-            @click="deleteProduto(produto.id)"
-            class="btn btn-sm btn-danger flex-grow-1"
-          >
-            Excluir
-          </button>
-        </div>
-      </li>
-    </ul>
+  <table class="table table-hover align-middle">
+    <thead class="table-light">
+      <tr>
+        <th scope="col">ID</th>
+        <th scope="col">Descrição</th>
+        <th scope="col">Tipo</th>
+        <th scope="col">Valor Fornecedor</th>
+        <th scope="col">Estoque</th>
+        <th scope="col">Receita</th>
+        <th scope="col">Custo</th>
+        <th scope="col">Lucro</th>
+        <th scope="col">Saídas</th>
+        <th scope="col" class="text-center">Ações</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="produto in produtos" :key="produto.id">
+        <td>{{ produto.id }}</td>
+        <td class="fw-semibold">{{ produto.descricao }}</td>
+        <td>{{ produto.tipoProduto }}</td>
+        <td>R$ {{ produto.valorFornecedor.toFixed(2) }}</td>
+        <td>{{ produto.quantidadeEstoque }}</td>
+        <td>R$ {{ produto.receita?.toFixed(2) ?? '0.00' }}</td>
+        <td>R$ {{ produto.custo?.toFixed(2) ?? '0.00' }}</td>
+        <td>R$ {{ produto.lucro?.toFixed(2) ?? '0.00' }}</td>
+        <td>{{ produto.quantidadeSaida ?? 0 }}</td>
+        <td class="text-center">
+          <div class="d-flex justify-content-center gap-2">
+            <router-link
+              :to="`/produtos/edit/${produto.id}`"
+              class="btn btn-sm btn-warning"
+              title="Editar"
+            >
+              <i class="bi bi-pencil-square"></i>
+            </router-link>
+            <button
+              @click="deleteProduto(produto.id)"
+              class="btn btn-sm btn-danger"
+              title="Excluir"
+            >
+              <i class="bi bi-trash3"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
   </div>
 </template>
 

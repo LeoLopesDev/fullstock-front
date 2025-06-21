@@ -2,51 +2,73 @@
   <div class="container mt-5" style="max-width: 600px;">
     <div class="card shadow-lg rounded-4">
       <div class="card-body">
-        <h2 class="card-title text-center mb-4 fw-bold text-secondary">
-          {{ isEdit ? 'Editar Produto' : 'Novo Produto' }}
-        </h2>
-        <form @submit.prevent="submitForm" class="d-flex flex-column gap-3">
-          <input
-            v-model="descricao"
-            type="text"
-            placeholder="Descrição"
-            required
-            class="form-control"
-          />
-          <input
-            v-model.number="valorFornecedor"
-            type="number"
-            step="0.01"
-            min="0"
-            placeholder="Valor Fornecedor"
-            required
-            class="form-control"
-          />
-          <input
-            v-model.number="quantidadeEstoque"
-            type="number"
-            min="0"
-            placeholder="Quantidade Estoque"
-            required
-            class="form-control"
-          />
-          <select
-            v-model="tipoProduto"
-            required
-            class="form-select"
-          >
-            <option disabled value="">Selecione o tipo</option>
-            <option>ELETRONICO</option>
-            <option>ELETRODOMESTICO</option>
-            <option>MOVEL</option>
-          </select>
-          <button
-            type="submit"
-            class="btn btn-primary fw-semibold"
-          >
-            {{ isEdit ? 'Salvar Alterações' : 'Cadastrar Produto' }}
-          </button>
-        </form>
+        <form @submit.prevent="submitForm" class="p-4 rounded-3 shadow bg-white">
+  <h3 class="mb-4 fw-bold text-secondary">
+    {{ isEdit ? 'Editar Produto' : 'Cadastrar Produto' }}
+  </h3>
+
+  <div class="form-floating mb-3">
+    <input
+      v-model="descricao"
+      type="text"
+      class="form-control rounded-3"
+      id="descricao"
+      placeholder="Descrição"
+      required
+    />
+    <label for="descricao">Descrição</label>
+  </div>
+
+  <div class="form-floating mb-3">
+    <input
+      v-model.number="valorFornecedor"
+      type="number"
+      step="0.01"
+      min="0"
+      class="form-control rounded-3"
+      id="valorFornecedor"
+      placeholder="Valor Fornecedor"
+      required
+    />
+    <label for="valorFornecedor">Valor Fornecedor (R$)</label>
+  </div>
+
+  <div class="form-floating mb-3">
+    <input
+      v-model.number="quantidadeEstoque"
+      type="number"
+      min="0"
+      class="form-control rounded-3"
+      id="quantidadeEstoque"
+      placeholder="Quantidade Estoque"
+      required
+    />
+    <label for="quantidadeEstoque">Quantidade em Estoque</label>
+  </div>
+
+  <div class="form-floating mb-4">
+    <select
+      v-model="tipoProduto"
+      class="form-select rounded-3"
+      id="tipoProduto"
+      required
+    >
+      <option disabled value="">Selecione o tipo</option>
+      <option>ELETRONICO</option>
+      <option>ELETRODOMESTICO</option>
+      <option>MOVEL</option>
+    </select>
+    <label for="tipoProduto">Tipo de Produto</label>
+  </div>
+
+  <button
+    type="submit"
+    class="btn btn-primary w-100 py-3 rounded-3 fw-semibold"
+  >
+    {{ isEdit ? 'Salvar Alterações' : 'Cadastrar Produto' }}
+  </button>
+</form>
+
       </div>
     </div>
   </div>
