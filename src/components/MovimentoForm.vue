@@ -105,8 +105,16 @@ const addMovimento = async () => {
       quantidadeMovimentada: quantidadeMovimentada.value,
     });
     alert("Movimentação registrada!");
-  } catch {
-    alert("Erro ao registrar movimentação");
+    produtoId.value = null;
+    tipoMovimentacao.value = "";
+    valorVenda.value = null;
+    dataVenda.value = "";
+    quantidadeMovimentada.value = null;
+  } catch (error) {
+    const mensagem =
+      error.response?.data?.message || "Erro ao registrar movimentação.";
+
+    alert(mensagem);
   }
 };
 </script>
